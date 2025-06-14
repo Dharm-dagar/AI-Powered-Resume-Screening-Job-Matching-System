@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Category Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(224, 224, 225);
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="container" style="margin-top:20px;background:rgb(226, 221, 252);color:black;"">
+        <h1 class="text center" style="text-align: center;">AI-Powered Resume Screening & Job Matching</h1>
+        <br>
+        <h2 style="text-align: left;">Role: MERN Stack Developer</h2>
+        <h3>Job Description</h3>
+        <ul>
+            <li>Expertise: MongoDB, Express, React, and Node.js (MERN stack).</li>
+            <li>Front-End Proficiency: Strong skills in JavaScript, HTML, and CSS.</li>
+            <li>RESTful APIs: Experience in designing and consuming APIs.</li>
+            <li>Agile Development: Familiarity with agile methodologies.</li>
+            <li>State Management: Knowledge of libraries like Redux or Context API (preferred).</li>
+            <li>Responsive Design: Ability to build mobile-friendly, adaptive UIs.</li>
+            <li>Performance Optimization: Experience in improving web application speed and efficiency.</li>
+            <li>Collaboration: Comfortable working in cross-functional teams.</li>
+            <li>Scalability: Proven ability to deliver high-performance applications.</li>
+        </ul>
+    </div>
+
+
+
+    <div class="container" style="background:rgb(226, 221, 252); color:black; padding: 20px; text-align: center;">
+        <style>
+            .icon-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 200px;
+                width: 200px;
+                background-color: rgb(226, 221, 252);
+                margin: auto;
+                border: 2px dashed grey; /* Dropbox style */
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+            }
+    
+            .icon-container:hover {
+                background-color: rgb(210, 210, 250);
+            }
+    
+            svg {
+                width: 150px;
+                height: 150px;
+            }
+    
+            .file-input {
+                display: none;
+            }
+    
+            .custom-file-label {
+                display: inline-block;
+                background: #6a5acd;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                margin-top: 10px;
+            }
+    
+            .custom-file-label:hover {
+                background: #4b3ca5;
+            }
+    
+            .submit-btn {
+                background: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                margin-top: 10px;
+            }
+    
+            .submit-btn:hover {
+                background: #45a049;
+            }
+        </style>
+    
+        <div class="icon-container" onclick="document.getElementById('resumeInput').click()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="grey" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0z"/>
+            </svg>
+        </div>
+    
+        <form action="/pred" method="post" enctype="multipart/form-data">
+            <input type="file" id="resumeInput" name="resume" class="file-input" accept=".pdf, .txt" required>
+            <label for="resumeInput" class="custom-file-label">Upload Resume</label>
+            <!-- <br> -->
+            <input type="submit" value="Submit" class="submit-btn">
+        </form>
+    
+        {% if message %}
+        <p class="text-center">{{message}}</p>
+        {% endif %}
+    
+        {% if predicted_category %}
+        <br>
+        <hr>
+        <br>
+        <p class="text-center"><b><strong>Category:</strong></b> {{predicted_category}}</p>
+        <p class="text-center"><b><strong>Recommended Job:</strong></b> {{recommended_job}}</p>
+        <br>
+        <hr>
+        <h1 class="text-center">Extracted Information</h1>
+        <p class="text-center"><b><strong>Name:</strong></b> {{name}}</p>
+        <p class="text-center"><b><strong>Phone No:</strong></b> {{phone}}</p>
+        <p class="text-center"><b><strong>Email:</strong></b> {{email}}</p>
+    
+        {% if extracted_skills %}
+        <p class="text-center"><b><strong>Skills</strong></b></p>
+        <ul class="list-unstyled text-center">
+            {% for skill in extracted_skills %}
+            <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-center">No skills found.</p>
+        {% endif %}
+    
+        {% if extracted_education %}
+        <h1 class="text-center">Education:</h1>
+        <ul class="list-unstyled text-center">
+            {% for edu in extracted_education %}
+            <li>{{ edu }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-center">No Education found.</p>
+        {% endif %}
+        {% endif %}
+    </div>
+    
+
+</body>
+
+</html>
